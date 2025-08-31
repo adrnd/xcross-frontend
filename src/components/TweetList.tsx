@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import type BasicTweet from './BasicTweet'
 
+
 export function TweetList() {
   const [tweets, setTweets] = useState<BasicTweet[]>([])
   const WS_URL = 'wss://localhost:7191/ws'
@@ -67,8 +68,8 @@ export function TweetList() {
   }, [])
 
   return (
-    <div className="py-2">
-      <h1>Live Tweets</h1>
+    <div className="py-2" >
+      <h1 style={{ color: '#d52b1e', fontWeight: 800 }}>Live Tweets</h1>
       <div
       className="masonry-grid"
       style={{
@@ -95,12 +96,18 @@ export function TweetList() {
           <div className="mask"></div>
           </a>
         </div>
-        <div className="card-body ">
-          <div className="card-title inline-flex">
-          <img src={t.profilepicURL} className="rounded-circle allign-left" style={{ width: '50px', height: '50px' }} alt="ProfilePic" />
-          <h5 className="card-title allign-left">{t.account}</h5>
-          </div>
-          <h5 className="card-text">
+        <div className="card-title">
+            <div className="card-title d-flex align-items-center" style={{ gap: '0.5rem' }}>
+            <img
+              src={t.profilepicURL}
+              className="rounded-circle m-2 align-left"
+              style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+              alt="ProfilePic"
+            />
+            <h5 className="card-title font-weight-800"
+            style={{ color: '#d52b1e', fontWeight: 700 }}>{t.account}</h5>
+            </div>
+          <h5 className="card-text mt-2 px-2">
           {t.tweetText}
           </h5>
           <div className="h6 card-text text-muted">{t.date}</div>
