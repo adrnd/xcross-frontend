@@ -32,7 +32,7 @@ These are optional:
 `ApiRequestUri_TAIO`
 `USER1`
 `USER2`
-`USER3``
+`USER3`
 
 4. Hit run, your server should then be available almost immediately.
 
