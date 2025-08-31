@@ -5,12 +5,13 @@ import type BasicTweet from './BasicTweet'
 
 export function TweetList() {
   const [tweets, setTweets] = useState<BasicTweet[]>([])
-  const WS_URL = 'wss://localhost:7191/ws'
+  const WS_URL = 'ws://localhost:5013/ws'
 
   useEffect(() => {
     const ws = new WebSocket(WS_URL)
 
     ws.onmessage = (e: MessageEvent) => {
+      console.log('message received')
       let arr: unknown
       try {
         // JSON is _just_ an array, not wrapped in an object
@@ -59,17 +60,25 @@ export function TweetList() {
         // filter out any nulls, and narrow to BasicTweet[]
         .filter((t): t is BasicTweet => t !== null)
 
-      setTweets(parsed)
+      // merge new tweets with existing ones, avoiding duplicates
+      setTweets(prevTweets => {
+        const existingIDs = new Set(prevTweets.map(t => t.tweetID))
+        const newTweets = parsed.filter(t => !existingIDs.has(t.tweetID))
+        //prepending new tweets (pre-sorted in the backend TweetStore)
+        const allTweets = [...newTweets, ...prevTweets]
+        return allTweets.slice(0, 40) //limit to the most recent 40 tweets
+      })
     }
 
     ws.onerror = console.error
-    ws.onclose = () => console.log('WS closed')
+    ws.onclose = () => console.log('WebSocket closed')
     return () => { ws.close() }
   }, [])
-
+//putting together the tweet cards in a masonry layout
   return (
-    <div className="py-2" >
-      <h1 style={{ color: '#d52b1e', fontWeight: 800 }}>Live Tweets</h1>
+    <div className="" >
+      <h1 style={{ color: '#d52b1e', fontWeight: 1000, fontSize: '7rem', rotate: '45deg' }}>+</h1>
+      <h1 className =""style={{ color: '#d52b1e', fontWeight: 800 }}>Cross Live Feeds</h1>
       <div
       className="masonry-grid"
       style={{
