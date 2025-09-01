@@ -1,5 +1,9 @@
 FROM node:18-alpine AS build
 WORKDIR /app
+
+ARG REACT_APP_WEBSOCKET_URL
+ENV REACT_APP_WEBSOCKET_URL=$REACT_APP_WEBSOCKET_URL
+
 COPY package.json package-lock.json ./
 RUN npm install --frozen-lockfile
 COPY . ./
