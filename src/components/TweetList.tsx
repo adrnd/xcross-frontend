@@ -5,7 +5,7 @@ import type BasicTweet from './BasicTweet'
 
 export function TweetList() {
   const [tweets, setTweets] = useState<BasicTweet[]>([])
-  const WS_URL = '%REACT_APP_WEBSOCKET_URL%'
+  const WS_URL = process.env.REACT_APP_WEBSOCKET_URL!
 
   useEffect(() => {
     const ws = new WebSocket(WS_URL)
